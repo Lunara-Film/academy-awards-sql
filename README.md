@@ -9,7 +9,19 @@ psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f sql/0001_oscars.sql
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f sql/0002_lunara.sql
 ```
 
-`0001` is the record. `0002` is optional. It attaches Lunara film-page ids and poster URLs where the IMDb title id matches.
+`0001` is the finished record, ceremonies 1–98. `0002` is optional. It attaches Lunara film-page ids and poster URLs where the IMDb title id matches. `0003` opens ceremony 99, film year 2026, with no nominations.
+
+## The next ceremony
+
+Ceremony 99 is a real row. Its status is `building`. It has no films and no nominees, because those have not been announced. The home slate stays on the last complete ceremony.
+
+Do not edit `0001` when the season starts. Add the next file, `sql/0004_ceremony_99_nominations.sql`, and insert only what is known: new films, new people, then the nomination and its links. When the ceremony has been held, that same file can set the row to complete:
+
+```sql
+update ceremonies set status = 'complete' where number = 99;
+```
+
+The year after that is the same move. Insert ceremony 100 as `building` in its own file, and leave it empty until there is something to record.
 
 ## What is in it
 
