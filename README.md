@@ -23,6 +23,26 @@ update ceremonies set status = 'complete' where number = 99;
 
 The year after that is the same move. Insert ceremony 100 as `building` in its own file, and leave it empty until there is something to record.
 
+## Layers
+
+The official ballot is `nominations`. A prediction does not go in that table.
+
+`sql/0004_layers.sql` adds two tables. `layers` names a source: a prediction, a precursor award, or an editorial note. `layer_entries` is one call in that source, pointed at a ceremony and a category. It may name a film or a person who is not in the official record yet.
+
+`sql/predictions.sql` is Dalton's slate. It deletes and reinserts only `layer_id = 1`. Re-run it any time. It cannot change a nomination.
+
+```bash
+psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f sql/0004_layers.sql
+psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f sql/predictions.sql
+```
+
+```sql
+select film_year, canonical_name, outcome, film, person
+from v_layers
+where slug = 'dalton'
+order by ceremony_number, canonical_name;
+```
+
 ## What is in it
 
 | Table | Rows | Holds |
