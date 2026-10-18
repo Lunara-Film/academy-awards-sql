@@ -1,5 +1,9 @@
 # Academy Awards SQL
 
+Contributor and merge policy: [AGENTS.md](AGENTS.md). Agents merge completed,
+verified work within the approved task. Applying SQL to a database remains a
+separate authorized action; merging this repository does not apply it.
+
 A Postgres database of the Academy Awards, ceremonies 1–98 (film years 1927/28–2025).
 
 This is the database only. The Lunara site and the Oscar Ledger plugin stay in their own repositories. Load these two files, in order, into an empty database.
